@@ -51,6 +51,22 @@ int main(int argc, char* argv[])
          {
             gameIsRunning = false;
          }
+         if (event.type == SDL_MOUSEMOTION)
+         {
+            std::cout << "Mouse has been moved\n";
+         }
+         if (event.type == SDL_KEYDOWN)
+         {
+            std::cout << "A key has been pressed.\n";
+            if (event.key.keysym.sym == SDLK_0)
+            {
+               std::cout << "0 was pressed!\n";
+            }
+            else
+            {
+               std::cout << "0 was not pressed.\n";
+            }
+         }
       }
    }
 
