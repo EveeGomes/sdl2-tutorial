@@ -3,8 +3,6 @@
 
 // Third-Party Library
 #include <SDL.h>
-// Include GLAD
-#include <glad/glad.h>
 
 int main(int argc, char* argv[])
 {
@@ -14,6 +12,11 @@ int main(int argc, char* argv[])
    *  from SDL_CreateWindow.
    */
    SDL_Window* window = nullptr;
+
+   /** 
+   * Grab the window surface
+   */
+   SDL_Surface* screen;
 
    /** 
    * Initialize the video subsystem.
@@ -41,6 +44,24 @@ int main(int argc, char* argv[])
                               640,
                               480,
                               SDL_WINDOW_SHOWN);
+   /** 
+   * Get a pointer to the surface associated with the window.
+   * This is used instead of creating a renderer, so we'll be
+   *  drawing directly to the screen.
+   */
+   screen = SDL_GetWindowSurface(window);
+
+   /** 
+   * An image is another surface, so we create another surface
+   *  for the image we want to load
+   */
+   SDL_Surface* image;
+   image = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
+   SDL_BlitSurface(image, NULL, screen, NULL);
+   SDL_FreeSurface(image);
+
+   // Update the window surface (redraw our window surface)
+   SDL_UpdateWindowSurface(window);
 
    // Infinite loop for our application
    bool gameIsRunning = true;
@@ -61,25 +82,16 @@ int main(int argc, char* argv[])
          }
          if (event.type == SDL_KEYDOWN)
          {
-            std::cout << "A key has been pressed.\n";
-            if (event.key.keysym.sym == SDLK_0)
+            /**
+            * Handle the Keyboard state by retrieving the state of
+            *  all of our scan codes that have been pressed, and
+            *  checking which ones are 0 or 1.
+            */
+            const Uint8* state = SDL_GetKeyboardState(NULL);
+            if (state[SDL_SCANCODE_RIGHT])
             {
-               std::cout << "0 was pressed!\n";
+               std::cout << "Right arrow has been pressed.\n";
             }
-            else
-            {
-               std::cout << "0 was not pressed.\n";
-            }
-         }
-         /**
-         * Handle the Keyboard state by retrieving the state of
-         *  all of our scan codes that have been pressed, and
-         *  checking which ones are 0 or 1.
-         */
-         const Uint8* state = SDL_GetKeyboardState(NULL);
-         if (state[SDL_SCANCODE_RIGHT])
-         {
-            std::cout << "Right arrow has been pressed.\n";
          }
       }
    }
