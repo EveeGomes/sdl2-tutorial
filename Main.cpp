@@ -67,6 +67,16 @@ int main(int argc, char* argv[])
                std::cout << "0 was not pressed.\n";
             }
          }
+         /**
+         * Handle the Keyboard state by retrieving the state of
+         *  all of our scan codes that have been pressed, and
+         *  checking which ones are 0 or 1.
+         */
+         const Uint8* state = SDL_GetKeyboardState(NULL);
+         if (state[SDL_SCANCODE_RIGHT])
+         {
+            std::cout << "Right arrow has been pressed.\n";
+         }
       }
    }
 
