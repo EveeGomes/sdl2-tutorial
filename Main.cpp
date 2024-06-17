@@ -3,6 +3,8 @@
 
 // Third-Party Library
 #include <SDL.h>
+// Include GLAD
+#include <glad/glad.h>
 
 int main(int argc, char* argv[])
 {
@@ -27,21 +29,55 @@ int main(int argc, char* argv[])
    {
       std::cout << "SDL is ready to go.\n";
    }
-
+   /** 
+   * Before we create our window, specify OpenGL version
+   */
+   // Version 4.1
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+   // Core profile
+   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
+                       SDL_GL_CONTEXT_PROFILE_CORE);
+   // Update the window quite often between front and back buffers
+   SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+   // Make sure it has 24 bits for the color
+   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+   
    /** 
    * Request a window to be created for our platform.
+   * Add the SDL_WINDOW_OPENGL flag so it can be a window
+   *  usable with an OpenGL context.
    */
    window = SDL_CreateWindow("C++ SDL2 Window", 
                               20,
                               20,
                               640,
                               480,
-                              SDL_WINDOW_SHOWN);
+                              SDL_WINDOW_SHOWN | 
+                              SDL_WINDOW_OPENGL);
+
+   /** 
+   * OpenGL setup the graphics context
+   * Create the OpenGL context object. Then, use CreateContext()
+   *  to create an OpenGL context associated with the window we
+   *  have.
+   */
+   SDL_GLContext context;
+   context = SDL_GL_CreateContext(window);
+
+   /** 
+   * Setup our function pointers.
+   * This is important so it knows where to find the functions.
+   */
+   gladLoadGLLoader(SDL_GL_GetProcAddress);
 
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
    {
+      // Size of OpenGL viewport:
+      glViewport(20, 20, 640, 480);
+
       SDL_Event event;
       // Start our event loop
       while (SDL_PollEvent(&event))
@@ -77,6 +113,21 @@ int main(int argc, char* argv[])
          {
             std::cout << "Right arrow has been pressed.\n";
          }
+
+         /** 
+         * To test OpenGL:
+         * Clear the window every frame to give us a new color
+         *  of our screen
+         */
+         glClearColor(1.f, 0.f, 0.f, 1.f); // red
+         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+         /** 
+         * Let SDL know that we're having double buffer (front
+         *  and back) and it keeps refreshing and flipping between
+         *  them.
+         */
+         SDL_GL_SwapWindow(window);
       }
    }
 
