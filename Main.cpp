@@ -22,9 +22,6 @@ void SetPixel(SDL_Surface* surface,
    * With it locked, we can modify it.
    */
    SDL_LockSurface(surface);
-   SDL_memset(surface->pixels,
-              255,
-              surface->h * surface->pitch);
    std::cout << "Left mouse button was pressed at "
              << "x,y position ("
              << x << "," << y << ")\n";
@@ -34,11 +31,25 @@ void SetPixel(SDL_Surface* surface,
    *  surface.
    * In [Ep.15] @13:39, Mike shows that pitch corresponds to the
    *  length of a single row of pixels in the window (how many
-   *  bytes are in a row): w * 3 = pitch
+   *  bytes are in a row): w(of the window) * 3 = pitch
    *  [r|g|b|r|g|b|...]
+   * surface->format->BytesPerPixel changed to surface->pitch
+   * y is the height of our image, it's the row that's being 
+   *  modified.
+   * x is the position across the row, it's the width. It works
+   *  as the offset for that pixel.
+   * 
+   * So, if it's a red value, we offset by 0:
+   * pixelArray[y * surface->pitch + x+0] = red;
+   * If it's green, we go to the next 8 bits (1 byte):
+   * pixelArray[y * surface->pitch + x+1] = red;
+   * If it's a blue value we move one more byte over:
+   * pixelArray[y * surface->pitch + x+2] = red;
    */
    uint8_t* pixelArray = (uint8_t*)surface->pixels;
-   pixelArray[y * surface->format->BytesPerPixel + x] = red;
+   pixelArray[y * surface->pitch + x + 0] = red;
+   pixelArray[y * surface->pitch + x + 1] = green;
+   pixelArray[y * surface->pitch + x + 2] = blue;
 
    SDL_UnlockSurface(surface);
 }
@@ -123,6 +134,9 @@ int main(int argc, char* argv[])
          }
          if (event.button.button == SDL_BUTTON_LEFT)
          {
+            SetPixel(screen,
+                     x, y,
+                     255, 0, 0);
             /** 
             * After the changes, update the surface.
             * It's a strategy of "flipping" the buffer. So we make
