@@ -45,11 +45,18 @@ void SetPixel(SDL_Surface* surface,
    * pixelArray[y * surface->pitch + x+1] = red;
    * If it's a blue value we move one more byte over:
    * pixelArray[y * surface->pitch + x+2] = red;
+   * 
+   * When shifting over one position in the x coordinate, we
+   *  also need to move over a certain amount of bytes. So, we're
+   *  going to multiply x by the number of bytes per pixel.
    */
    uint8_t* pixelArray = (uint8_t*)surface->pixels;
-   pixelArray[y * surface->pitch + x + 0] = red;
-   pixelArray[y * surface->pitch + x + 1] = green;
-   pixelArray[y * surface->pitch + x + 2] = blue;
+   pixelArray[y * surface->pitch + 
+              x * surface->format->BytesPerPixel + 0] = red;
+   pixelArray[y * surface->pitch + 
+              x * surface->format->BytesPerPixel + 1] = green;
+   pixelArray[y * surface->pitch + 
+              x * surface->format->BytesPerPixel + 2] = blue;
 
    SDL_UnlockSurface(surface);
 }
