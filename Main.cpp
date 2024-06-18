@@ -31,7 +31,7 @@ void SetPixel(SDL_Surface* surface,
    *  surface.
    * In [Ep.15] @13:39, Mike shows that pitch corresponds to the
    *  length of a single row of pixels in the window (how many
-   *  bytes are in a row): w(of the window) * 3 = pitch
+   *  bytes are in a row): w(of the window) * bytes = pitch
    *  [r|g|b|r|g|b|...]
    * surface->format->BytesPerPixel changed to surface->pitch
    * y is the height of our image, it's the row that's being 
@@ -52,6 +52,16 @@ void SetPixel(SDL_Surface* surface,
    * 
    * The color format may be RGB, but it can also be BGR/GBR.
    * The function can take RGB but we change how they're set:
+   * 
+   * To move through:
+   *  y is where we currently wanna draw * the pitch: moves us
+   *   down each one of the rows, and to position ourselves
+   *   within a certain cell the offset is the x position * 
+   *   how many bytes we need to move over.
+   *  And then, within that pixel we modify the red, green
+   *   and blue pixel. (Remember the format might be different
+   *   from RGB - BGR - GBR).
+   *  
    */
    uint8_t* pixelArray = (uint8_t*)surface->pixels;
    pixelArray[y * surface->pitch + 
