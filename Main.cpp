@@ -68,6 +68,12 @@ int main(int argc, char* argv[])
    while (gameIsRunning)
    {
       SDL_Event event;
+      
+      // Mouse State
+      int x, y;
+      Uint32 buttons;
+      buttons = SDL_GetMouseState(&x, &y);
+
       // Start our event loop
       while (SDL_PollEvent(&event))
       {
@@ -86,7 +92,9 @@ int main(int argc, char* argv[])
             SDL_memset(screen->pixels, 
                        255,
                        screen->h * screen->pitch);
-            std::cout << "Left mouse button was pressed.\n";
+            std::cout << "Left mouse button was pressed at "
+                      << "x,y position (" 
+                      << x << "," << y << ")\n";
             SDL_UnlockSurface(screen);
             /** 
             * After the changes, update the surface.
