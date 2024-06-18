@@ -55,10 +55,10 @@ int main(int argc, char* argv[])
    * An image is another surface, so we create another surface
    *  for the image we want to load
    */
-   SDL_Surface* image;
-   image = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
-   SDL_BlitSurface(image, NULL, screen, NULL);
-   SDL_FreeSurface(image);
+   //SDL_Surface* image;
+   //image = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
+   //SDL_BlitSurface(image, NULL, screen, NULL);
+   //SDL_FreeSurface(image);
 
    // Update the window surface (redraw our window surface)
    SDL_UpdateWindowSurface(window);
@@ -76,22 +76,28 @@ int main(int argc, char* argv[])
          {
             gameIsRunning = false;
          }
-         if (event.type == SDL_MOUSEMOTION)
+         if (event.button.button == SDL_BUTTON_LEFT)
          {
-            std::cout << "Mouse has been moved\n";
-         }
-         if (event.type == SDL_KEYDOWN)
-         {
-            /**
-            * Handle the Keyboard state by retrieving the state of
-            *  all of our scan codes that have been pressed, and
-            *  checking which ones are 0 or 1.
+            /** 
+            * Once locked, surface->pixels is safe to access. 
+            * With it locked, we can modify it.
             */
-            const Uint8* state = SDL_GetKeyboardState(NULL);
-            if (state[SDL_SCANCODE_RIGHT])
-            {
-               std::cout << "Right arrow has been pressed.\n";
-            }
+            SDL_LockSurface(screen);
+            SDL_memset(screen->pixels, 
+                       255,
+                       screen->h * screen->pitch);
+            std::cout << "Left mouse button was pressed.\n";
+            SDL_UnlockSurface(screen);
+            /** 
+            * After the changes, update the surface.
+            * It's a strategy of "flipping" the buffer. So we make
+            *  modifications to the color, and once they're done 
+            *  to whatever surface we've been drawing to, we flip
+            *  to the newly updated surface and then it can make 
+            *  modifications in the background. That's the double
+            *  buffering strategy.
+            */
+            SDL_UpdateWindowSurface(window);
          }
       }
    }
