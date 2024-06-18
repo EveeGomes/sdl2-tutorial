@@ -49,14 +49,17 @@ void SetPixel(SDL_Surface* surface,
    * When shifting over one position in the x coordinate, we
    *  also need to move over a certain amount of bytes. So, we're
    *  going to multiply x by the number of bytes per pixel.
+   * 
+   * The color format may be RGB, but it can also be BGR/GBR.
+   * The function can take RGB but we change how they're set:
    */
    uint8_t* pixelArray = (uint8_t*)surface->pixels;
    pixelArray[y * surface->pitch + 
-              x * surface->format->BytesPerPixel + 0] = red;
+              x * surface->format->BytesPerPixel + 0] = green;
    pixelArray[y * surface->pitch + 
-              x * surface->format->BytesPerPixel + 1] = green;
+              x * surface->format->BytesPerPixel + 1] = blue;
    pixelArray[y * surface->pitch + 
-              x * surface->format->BytesPerPixel + 2] = blue;
+              x * surface->format->BytesPerPixel + 2] = red;
 
    SDL_UnlockSurface(surface);
 }
@@ -141,20 +144,22 @@ int main(int argc, char* argv[])
          }
          if (event.button.button == SDL_BUTTON_LEFT)
          {
-            SetPixel(screen,
-                     x, y,
-                     255, 0, 0);
-            /** 
-            * After the changes, update the surface.
-            * It's a strategy of "flipping" the buffer. So we make
-            *  modifications to the color, and once they're done 
-            *  to whatever surface we've been drawing to, we flip
-            *  to the newly updated surface and then it can make 
-            *  modifications in the background. That's the double
-            *  buffering strategy.
-            */
-            SDL_UpdateWindowSurface(window);
+            SetPixel(screen, x, y, 255, 0, 0);
          }
+         if (event.button.button == SDL_BUTTON_RIGHT)
+         {
+            SetPixel(screen, x, y, 0, 0, 255);
+         }
+         /** 
+         * After the changes, update the surface.
+         * It's a strategy of "flipping" the buffer. So we make
+         *  modifications to the color, and once they're done 
+         *  to whatever surface we've been drawing to, we flip
+         *  to the newly updated surface and then it can make 
+         *  modifications in the background. That's the double
+         *  buffering strategy.
+         */
+         SDL_UpdateWindowSurface(window);
       }
    }
 
