@@ -61,7 +61,7 @@ void SetPixel(SDL_Surface* surface,
    *  And then, within that pixel we modify the red, green
    *   and blue pixel. (Remember the format might be different
    *   from RGB - BGR - GBR).
-   *  
+   * https://chatgpt.com/share/43afbec5-3d83-4e09-be68-a60dd30745f0
    */
    uint8_t* pixelArray = (uint8_t*)surface->pixels;
    pixelArray[y * surface->pitch + 
