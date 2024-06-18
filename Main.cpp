@@ -4,6 +4,45 @@
 // Third-Party Library
 #include <SDL.h>
 
+/** 
+* Helper function to set a pixel color.
+* Abstract the update that we were doing inside the loop 
+* @params x,y: pixels coordinates.
+* @params colors: use uint8_t for the colors because they range 
+*  between 0 - 255, so there's no need to be too large data type!
+* @param surface: to not worry about locking the surface all the
+*  time.
+*/
+void SetPixel(SDL_Surface* surface, 
+              int x, int y, 
+              uint8_t red, uint8_t green, uint8_t blue)
+{
+   /**
+   * Once locked, surface->pixels is safe to access.
+   * With it locked, we can modify it.
+   */
+   SDL_LockSurface(surface);
+   SDL_memset(surface->pixels,
+              255,
+              surface->h * surface->pitch);
+   std::cout << "Left mouse button was pressed at "
+             << "x,y position ("
+             << x << "," << y << ")\n";
+   /** 
+   * The pointer to a pixel is of type void* so we need to cast
+   *  it! If not NULL, it contains the raw pixel data for the
+   *  surface.
+   * In [Ep.15] @13:39, Mike shows that pitch corresponds to the
+   *  length of a single row of pixels in the window (how many
+   *  bytes are in a row): w * 3 = pitch
+   *  [r|g|b|r|g|b|...]
+   */
+   uint8_t* pixelArray = (uint8_t*)surface->pixels;
+   pixelArray[y * surface->format->BytesPerPixel + x] = red;
+
+   SDL_UnlockSurface(surface);
+}
+
 int main(int argc, char* argv[])
 {
    /** 
@@ -84,18 +123,6 @@ int main(int argc, char* argv[])
          }
          if (event.button.button == SDL_BUTTON_LEFT)
          {
-            /** 
-            * Once locked, surface->pixels is safe to access. 
-            * With it locked, we can modify it.
-            */
-            SDL_LockSurface(screen);
-            SDL_memset(screen->pixels, 
-                       255,
-                       screen->h * screen->pitch);
-            std::cout << "Left mouse button was pressed at "
-                      << "x,y position (" 
-                      << x << "," << y << ")\n";
-            SDL_UnlockSurface(screen);
             /** 
             * After the changes, update the surface.
             * It's a strategy of "flipping" the buffer. So we make
