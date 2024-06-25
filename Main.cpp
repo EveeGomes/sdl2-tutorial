@@ -43,6 +43,13 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+   // Create a rectangle
+   SDL_Rect rectangle;
+   rectangle.x = 50;
+   rectangle.y = 100;
+   rectangle.w = 20;
+   rectangle.h = 20;
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -70,6 +77,9 @@ int main(int argc, char* argv[])
       // Specify what color to draw the line
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
+
+      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      SDL_RenderDrawRect(renderer, &rectangle);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
