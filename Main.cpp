@@ -44,7 +44,9 @@ int main(int argc, char* argv[])
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
    
    // Create a surface to load an image
-   SDL_Surface* surface = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
+   SDL_Surface* surface = SDL_LoadBMP("./images/kong1.bmp");
+   SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
+
    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
    /** 
    * Since we're done with the surface pointer, and the memory
@@ -89,7 +91,7 @@ int main(int argc, char* argv[])
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
 
-      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      //SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       //SDL_RenderDrawRect(renderer, &rectangle);
       SDL_RenderCopy(renderer, texture, NULL, &rectangle);
 
