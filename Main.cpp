@@ -42,13 +42,24 @@ int main(int argc, char* argv[])
 
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+   
+   // Create a surface to load an image
+   SDL_Surface* surface = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
+   SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+   /** 
+   * Since we're done with the surface pointer, and the memory
+   *  has been copied somewhere else, we can free that memory
+   *  space.
+   */
+   SDL_FreeSurface(surface);
+
 
    // Create a rectangle
    SDL_Rect rectangle;
    rectangle.x = 50;
    rectangle.y = 100;
-   rectangle.w = 20;
-   rectangle.h = 20;
+   rectangle.w = 300;
+   rectangle.h = 300;
 
    // Infinite loop for our application
    bool gameIsRunning = true;
@@ -79,11 +90,17 @@ int main(int argc, char* argv[])
       SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
 
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      SDL_RenderDrawRect(renderer, &rectangle);
+      //SDL_RenderDrawRect(renderer, &rectangle);
+      SDL_RenderCopy(renderer, texture, NULL, &rectangle);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
    }
+   /** 
+   * Destroy the texture to free memory since it won't be used
+   *  anymore.
+   */
+   SDL_DestroyTexture(texture);
 
    /** 
    * We destroy our window. We are passing in the pointer that
