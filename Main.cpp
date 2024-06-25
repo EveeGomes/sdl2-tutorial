@@ -40,6 +40,9 @@ int main(int argc, char* argv[])
                               480,
                               SDL_WINDOW_SHOWN);
 
+   SDL_Renderer* renderer = nullptr;
+   renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -58,6 +61,18 @@ int main(int argc, char* argv[])
       // (2) Handle Updates
 
       // (3) Clear and Draw the Screen
+      // Set a color before clearing: set the background color
+      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      // Gives us a clear "canvas"
+      SDL_RenderClear(renderer);
+
+      // Do our drawing
+      // Specify what color to draw the line
+      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
+
+      // Finally show what we've drawn
+      SDL_RenderPresent(renderer);
    }
 
    /** 
