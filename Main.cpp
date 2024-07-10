@@ -58,6 +58,8 @@ int main(int argc, char* argv[])
    SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
 
    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+   SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+
    /** 
    * Since we're done with the surface pointer, and the memory
    *  has been copied somewhere else, we can free that memory
