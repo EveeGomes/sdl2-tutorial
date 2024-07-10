@@ -58,8 +58,6 @@ int main(int argc, char* argv[])
    SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
 
    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-   SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
-
    /** 
    * Since we're done with the surface pointer, and the memory
    *  has been copied somewhere else, we can free that memory
@@ -103,6 +101,27 @@ int main(int argc, char* argv[])
          {
             rectangle2.x = event.motion.x;
             rectangle2.y = event.motion.y;
+         }
+         if (event.type == SDL_MOUSEBUTTONDOWN)
+         {
+            if (event.button.button == SDL_BUTTON_LEFT)
+            {
+               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+            }
+            else if (event.button.button == SDL_BUTTON_MIDDLE)
+            {
+               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+            }
+            else if (event.button.button == SDL_BUTTON_RIGHT)
+            {
+               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_MOD);
+            }
+         }
+         // Reset the texture state if none of the events happens
+         // This also removes the ColorKey functionality
+         else
+         {
+            SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
          }
       }
 
