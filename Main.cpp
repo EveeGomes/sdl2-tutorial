@@ -45,6 +45,16 @@ int main(int argc, char* argv[])
    
    // Create a surface to load an image
    SDL_Surface* surface = SDL_LoadBMP("./images/kong1.bmp");
+   /**
+   * Set the color key after loading the surface, and 
+   *  before the texture. That is because when we create
+   *  the texture, we're shipping the data over to the GPU.
+   * The function below tells the computer to ignore those
+   *  particular pixels and draw them as transparents. So if
+   *  that haven't been already done in the image editor, we
+   *  can use this function to make those pixels in the specified
+   *  color transparent.
+   */
    SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
 
    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -82,14 +92,14 @@ int main(int argc, char* argv[])
 
       // (3) Clear and Draw the Screen
       // Set a color before clearing: set the background color
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      SDL_SetRenderDrawColor(renderer, 0, 0, 255, SDL_ALPHA_OPAQUE);
       // Gives us a clear "canvas"
       SDL_RenderClear(renderer);
 
       // Do our drawing
       // Specify what color to draw the line
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      SDL_RenderDrawLine(renderer, 5, 5, 100, 120);
+      SDL_RenderDrawLine(renderer, 5, 5, 280, 280);
 
       //SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       //SDL_RenderDrawRect(renderer, &rectangle);
