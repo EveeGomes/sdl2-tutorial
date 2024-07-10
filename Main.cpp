@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
    
    // Create a surface to load an image
-   SDL_Surface* surface = SDL_LoadBMP("./images/kong1.bmp");
+   SDL_Surface* surface = SDL_LoadBMP("./images/water.bmp");
    /**
    * Set the color key after loading the surface, and 
    *  before the texture. That is because when we create
@@ -55,9 +55,10 @@ int main(int argc, char* argv[])
    *  can use this function to make those pixels in the specified
    *  color transparent.
    */
-   SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
+   //SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 0, 255));
 
    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+   SDL_Texture* texture2 = SDL_CreateTextureFromSurface(renderer, surface);
    /** 
    * Since we're done with the surface pointer, and the memory
    *  has been copied somewhere else, we can free that memory
@@ -65,18 +66,31 @@ int main(int argc, char* argv[])
    */
    SDL_FreeSurface(surface);
 
-   // Create a rectangle
+   // Horizontal Rectangles
    SDL_Rect rectangle;
-   rectangle.x = 50;
-   rectangle.y = 100;
-   rectangle.w = 200;
-   rectangle.h = 200;
+   rectangle.x = 0;
+   rectangle.y = 0;
+   rectangle.w = 640;
+   rectangle.h = 480;
 
    SDL_Rect rectangle2;
-   rectangle2.x = 50;
-   rectangle2.y = 100;
-   rectangle2.w = 200;
-   rectangle2.h = 200;
+   rectangle2.x = -639;
+   rectangle2.y = 0;
+   rectangle2.w = 640;
+   rectangle2.h = 480;
+   
+   // Vertical Rectangles
+   SDL_Rect rectangle3;
+   rectangle3.x = 0;
+   rectangle3.y = 0;
+   rectangle3.w = 640;
+   rectangle3.h = 480;
+
+   SDL_Rect rectangle4;
+   rectangle4.x = 0;
+   rectangle4.y = -480;
+   rectangle4.w = 640;
+   rectangle4.h = 480;
 
    // Infinite loop for our application
    bool gameIsRunning = true;
@@ -92,36 +106,20 @@ int main(int argc, char* argv[])
          {
             gameIsRunning = false;
          }
-         /** 
-         * Check for mouse event and change the image
-         *  accordingly. Set the image's rect x and y pos
-         *  to the x and y pos of the mouse.
-         */
-         if (event.type == SDL_MOUSEMOTION)
-         {
-            rectangle2.x = event.motion.x;
-            rectangle2.y = event.motion.y;
-         }
          if (event.type == SDL_MOUSEBUTTONDOWN)
          {
             if (event.button.button == SDL_BUTTON_LEFT)
             {
-               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_ADD);
+               SDL_SetTextureBlendMode(texture2, SDL_BLENDMODE_ADD);
             }
             else if (event.button.button == SDL_BUTTON_MIDDLE)
             {
-               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+               SDL_SetTextureBlendMode(texture2, SDL_BLENDMODE_BLEND);
             }
             else if (event.button.button == SDL_BUTTON_RIGHT)
             {
-               SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_MOD);
+               SDL_SetTextureBlendMode(texture2, SDL_BLENDMODE_MOD);
             }
-         }
-         // Reset the texture state if none of the events happens
-         // This also removes the ColorKey functionality
-         else
-         {
-            SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
          }
       }
 
@@ -133,14 +131,44 @@ int main(int argc, char* argv[])
       // Gives us a clear "canvas"
       SDL_RenderClear(renderer);
 
-      // Do our drawing
-      // Specify what color to draw the line
-      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      SDL_RenderDrawLine(renderer, 5, 5, 200, 220);
+      int w, h;
+      // To query texture size if needed
+      SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+      // Little hack here, to slow down simulation
+      SDL_Delay(20);
 
-      //SDL_RenderDrawRect(renderer, &rectangle);
+      // Handle textures scrolling left and right
+      rectangle.x++;
+      if (rectangle.x > 639)
+      {
+         rectangle.x = -639;
+      }
+      rectangle2.x++;
+      if (rectangle2.x > 639)
+      {
+         rectangle2.x = -639;
+      }
+
+      // Handle textures scrolling up and down
+      rectangle3.y++;
+      if (rectangle3.y > 479)
+      {
+         rectangle3.y = -480;
+      }
+      rectangle4.y++;
+      if (rectangle4.y > 479)
+      {
+         rectangle4.y = -480;
+      }
+
+      // Order matters
+      // Scrolling left and right (no blending)
+      SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_NONE);
       SDL_RenderCopy(renderer, texture, NULL, &rectangle);
       SDL_RenderCopy(renderer, texture, NULL, &rectangle2);
+      // Scrolling up and down (have trasnparency)
+      SDL_RenderCopy(renderer, texture2, NULL, &rectangle3);
+      SDL_RenderCopy(renderer, texture2, NULL, &rectangle4);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
