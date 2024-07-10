@@ -65,20 +65,25 @@ int main(int argc, char* argv[])
    */
    SDL_FreeSurface(surface);
 
-
    // Create a rectangle
    SDL_Rect rectangle;
    rectangle.x = 50;
    rectangle.y = 100;
-   rectangle.w = 300;
-   rectangle.h = 300;
+   rectangle.w = 200;
+   rectangle.h = 200;
+
+   SDL_Rect rectangle2;
+   rectangle2.x = 50;
+   rectangle2.y = 100;
+   rectangle2.w = 200;
+   rectangle2.h = 200;
 
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
    {
-      SDL_Event event;
       //(1) Handle Input
+      SDL_Event event;
       // Start our event loop
       while (SDL_PollEvent(&event))
       {
@@ -87,7 +92,18 @@ int main(int argc, char* argv[])
          {
             gameIsRunning = false;
          }
+         /** 
+         * Check for mouse event and change the image
+         *  accordingly. Set the image's rect x and y pos
+         *  to the x and y pos of the mouse.
+         */
+         if (event.type == SDL_MOUSEMOTION)
+         {
+            rectangle2.x = event.motion.x;
+            rectangle2.y = event.motion.y;
+         }
       }
+
       // (2) Handle Updates
 
       // (3) Clear and Draw the Screen
@@ -99,11 +115,11 @@ int main(int argc, char* argv[])
       // Do our drawing
       // Specify what color to draw the line
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      SDL_RenderDrawLine(renderer, 5, 5, 280, 280);
+      SDL_RenderDrawLine(renderer, 5, 5, 200, 220);
 
-      //SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       //SDL_RenderDrawRect(renderer, &rectangle);
       SDL_RenderCopy(renderer, texture, NULL, &rectangle);
+      SDL_RenderCopy(renderer, texture, NULL, &rectangle2);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
