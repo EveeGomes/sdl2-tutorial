@@ -134,6 +134,10 @@
   <ItemGroup>
     <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TexturedRectangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TexturedRectangle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
