@@ -9,6 +9,10 @@ class TexturedRectangle
 {
 private:
    SDL_Rect m_rectangle;
+   /** 
+   * One improvement we can think of is to use smart pointers to avoid memory leaks.
+   * However, since we're dealing with a C-based library, leaving as it is also seems as a good decision.
+   */
    SDL_Texture* m_texture;
 
 public:
@@ -43,6 +47,7 @@ public:
    // Rule of 3: good practice!
    // Copy constructor
    // Copy assignment operator
+   // Or even rule of 5 with move and move assignment, depending on our API
 
    /** 
    * Have setters in order to set the values of the SDL_Rect, we now have as a member variable
