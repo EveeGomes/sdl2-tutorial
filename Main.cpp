@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   
+   TexturedRectangle rect(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
 
    // Infinite loop for our application
    bool gameIsRunning = true;
@@ -134,6 +134,9 @@ int main(int argc, char* argv[])
 
       // Do our drawing
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      
+      rect.SetRectangleProperties(20, 30, 200, 200);
+      rect.Render(renderer);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
