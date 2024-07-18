@@ -55,6 +55,15 @@ int main(int argc, char* argv[])
       std::cout << "SDL2_Image format not available.\n";
    }
 
+   // Create a surface (that is gonna hold our pixels)
+   SDL_Surface* image;
+   // Load up something into the surface
+   image = IMG_Load("./images/digital-illustration-pascal-campion-7.png");
+   if (!image)
+   {
+      std::cout << "Image not loaded..." << std::endl;
+   }
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -95,6 +104,9 @@ int main(int argc, char* argv[])
    *  destructors!
    */
    SDL_DestroyWindow(window);
+
+   // Unload the dynamically loaded image libraries
+   IMG_Quit();
 
    /** 
    * We safely uninitialize SDL2, that is, we are taking down the
