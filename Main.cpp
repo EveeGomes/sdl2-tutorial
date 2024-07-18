@@ -64,6 +64,12 @@ int main(int argc, char* argv[])
       std::cout << "Image not loaded..." << std::endl;
    }
 
+   /** 
+   * Render the image to a rectangle. But for that we first need
+   *  a texture.
+   */
+   SDL_Texture* ourPNG = SDL_CreateTextureFromSurface(renderer, image);
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -104,6 +110,11 @@ int main(int argc, char* argv[])
    *  destructors!
    */
    SDL_DestroyWindow(window);
+
+   // Free our png image surface
+   SDL_FreeSurface(image);
+   // Detroy our texture
+   SDL_DestroyTexture(ourPNG);
 
    // Unload the dynamically loaded image libraries
    IMG_Quit();
