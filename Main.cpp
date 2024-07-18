@@ -1,27 +1,34 @@
 // C++ Standard Libraries
 #include <iostream>
+#include <string>
 
 // Third-Party Library
 #include <SDL.h>
 
 class TexturedRectangle
 {
+private:
+   SDL_Rect m_rectangle;
+   SDL_Texture* m_texture;
+
 public:
    /** 
    * Responsible for setting up our rectangle and its properties!
+   * Have a constructor that can handle the image we want to create
+   *  and then immediately create a texture surface from that.
+   * We'll get the renderer as a reference and have the texture as a member variable.
+   *  This is a decision that might change later as to make the user of our API more
+   *  comfortable instead of keeping passing the renderer over the methods. In other hands
+   *  it's a good thing to keep everything in the same renderer.
    */
-   TexturedRectangle()
+   TexturedRectangle(SDL_Renderer*& renderer, std::string filePath) // renderer is being passed as a pointer reference!
    {
-      SDL_Surface* surface = SDL_LoadBMP("./images/digital-illustration-pascal-campion-7.bmp");
-      SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+      SDL_Surface* surface = SDL_LoadBMP(filePath.c_str()); // use c_str() because SDL is a C-based API!!!
+      m_texture = SDL_CreateTextureFromSurface(renderer, surface);
       SDL_FreeSurface(surface);
 
       // Create a rectangle
-      SDL_Rect rectangle;
-      rectangle.x = 50;
-      rectangle.y = 100;
-      rectangle.w = 200;
-      rectangle.h = 200;
+      
    }
    
    ~TexturedRectangle()
@@ -30,15 +37,34 @@ public:
       * Destroy the texture to free memory since it won't be used
       *  anymore.
       */
-      SDL_DestroyTexture(texture);
+      SDL_DestroyTexture(m_texture);
    }
 
    // Rule of 3: good practice!
    // Copy constructor
    // Copy assignment operator
 
-   // Drawing
-   SDL_RenderCopy(renderer, texture, NULL, &rectangle);
+   /** 
+   * Have setters in order to set the values of the SDL_Rect, we now have as a member variable
+   */
+   void SetRectangleProperties(int x, int y, int w, int h)
+   {
+      m_rectangle.x = x;
+      m_rectangle.y = y;
+      m_rectangle.w = w;
+      m_rectangle.h = h;
+   }
+
+   void Update()
+   {
+
+   }
+
+   void Render(SDL_Renderer*& renderer) // pointer reference
+   {
+      // Drawing
+      SDL_RenderCopy(renderer, m_texture, NULL, &m_rectangle);
+   }
 };
 
 int main(int argc, char* argv[])
