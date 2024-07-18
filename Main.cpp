@@ -3,6 +3,7 @@
 
 // Third-Party Library
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 int main(int argc, char* argv[])
 {
@@ -42,7 +43,31 @@ int main(int argc, char* argv[])
 
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+   /**
+   * Just like when we initialize our graphics subsystem,
+   *  we need to do the same for our font system.
+   */
+   if (TTF_Init() == -1)
+   {
+      std::cout << "Could not initialize SDL2 ttf, error: "
+                << TTF_GetError()
+                << std::endl;
+   }
+   else
+   {
+      std::cout << "SDL2_ttf is ready to go!\n";
+   }
    
+   /** 
+   * Create a surface to load an image.
+   * A surface in SDL is a way to load pixel data onto an internal
+   *  image format. Then, that pixel data can be taken and rendered
+   *  to a texture in order to be faster.
+   * So, rendering a text onto a texture, makes it way faster.
+   * If a change is needed, surfaces have to be recreated so it's
+   *  better to think about how to optimize it. (Ep. 22 5:20)
+   */
    // Create a surface to load an image
    SDL_Surface* surface = SDL_LoadBMP("./images/water.bmp");
    /**
