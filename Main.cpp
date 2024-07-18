@@ -4,6 +4,7 @@
 // Third-Party Library
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
 
 int main(int argc, char* argv[])
 {
@@ -43,6 +44,16 @@ int main(int argc, char* argv[])
 
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+   /** 
+   * Initialize the Image library and check if it was successful.
+   */
+   int flags = IMG_INIT_PNG;
+   int initStatus = IMG_Init(flags);
+   if ((initStatus & flags) != flags)
+   {
+      std::cout << "SDL2_Image format not available.\n";
+   }
 
    // Infinite loop for our application
    bool gameIsRunning = true;
