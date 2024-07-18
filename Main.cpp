@@ -3,8 +3,6 @@
 
 // Third-Party Library
 #include <SDL.h>
-#include <SDL_ttf.h>
-#include <SDL_image.h>
 
 int main(int argc, char* argv[])
 {
@@ -45,31 +43,6 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   /** 
-   * Initialize the Image library and check if it was successful.
-   */
-   int flags = IMG_INIT_PNG;
-   int initStatus = IMG_Init(flags);
-   if ((initStatus & flags) != flags)
-   {
-      std::cout << "SDL2_Image format not available.\n";
-   }
-
-   // Create a surface (that is gonna hold our pixels)
-   SDL_Surface* image;
-   // Load up something into the surface
-   image = IMG_Load("./images/digital-illustration-pascal-campion-7.png");
-   if (!image)
-   {
-      std::cout << "Image not loaded..." << std::endl;
-   }
-
-   /** 
-   * Render the image to a rectangle. But for that we first need
-   *  a texture.
-   */
-   SDL_Texture* ourPNG = SDL_CreateTextureFromSurface(renderer, image);
-
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -94,9 +67,6 @@ int main(int argc, char* argv[])
       // Gives us a clear "canvas"
       SDL_RenderClear(renderer);
 
-      // Just render the texture to the screen
-      SDL_RenderCopy(renderer, ourPNG, NULL, NULL); // a rectangle could be used here too - just replace the last NULL for it
-
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
    }
@@ -113,14 +83,6 @@ int main(int argc, char* argv[])
    *  destructors!
    */
    SDL_DestroyWindow(window);
-
-   // Free our png image surface
-   SDL_FreeSurface(image);
-   // Detroy our texture
-   SDL_DestroyTexture(ourPNG);
-
-   // Unload the dynamically loaded image libraries
-   IMG_Quit();
 
    /** 
    * We safely uninitialize SDL2, that is, we are taking down the
