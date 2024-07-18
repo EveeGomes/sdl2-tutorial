@@ -58,7 +58,27 @@ int main(int argc, char* argv[])
    {
       std::cout << "SDL2_ttf is ready to go!\n";
    }
+
+   /** 
+   * Load the font file and set the font size.
+   * Make error handling by checking if the font has loaded,
+   *  if it hasn't (the pointer is nullptr) show a message
+   *  error and terminate the program.
+   */
+   TTF_Font* ourFont = TTF_OpenFont("./fonts/PressStart2P-Regular.ttf", 32);
+   if (ourFont == nullptr)
+   {
+      std::cout << "Could not load font.\n";
+      exit(1);
+   }
    
+   /** 
+   * As ttfs are a pixel base format, we're going to send the
+   *  pixels data to the surface.
+   */
+   // Pixel from our text
+   SDL_Surface* surfaceText = TTF_RenderText_Solid(ourFont, "Mike SDL2 Tutorial Series", { 255, 255, 255 });
+
    /** 
    * Create a surface to load an image.
    * A surface in SDL is a way to load pixel data onto an internal
