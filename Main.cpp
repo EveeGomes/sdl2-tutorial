@@ -94,6 +94,9 @@ int main(int argc, char* argv[])
       // Gives us a clear "canvas"
       SDL_RenderClear(renderer);
 
+      // Just render the texture to the screen
+      SDL_RenderCopy(renderer, ourPNG, NULL, NULL); // a rectangle could be used here too - just replace the last NULL for it
+
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
    }
