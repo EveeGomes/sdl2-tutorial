@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 // Third-Party Library
 #include <SDL.h>
@@ -48,9 +49,22 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   std::vector<TexturedRectangle> rects;
+   /** 
+   * So, in order to fix that, we have to manage the lifetime of those objects.
+   * One way is to have a vector of TexturedRectangle pointers: vector<TexturedRectangle*>
+   * However, as an API user perspective, it's better for memory management, to use
+   *  shared pointers!
+   */
+   std::vector<std::shared_ptr<TexturedRectangle>> rects;
    for (int i = 0; i < 10; i++)
    {
+      /** 
+      * The problem is that every time a rect is created it is
+      *  only temporarily allocated and once it gets out out of the scope
+      *  of this loop, it gets destroyed! So it's possible the rectangles are
+      *  being rendered but since the constructor is called and it destroys the
+      *  the texture, it becomes empty. (or completely destroy the object?).
+      */
       rects.push_back(TexturedRectangle{ renderer, "./images/digital-illustration-pascal-campion-7.bmp"});
    }
 
