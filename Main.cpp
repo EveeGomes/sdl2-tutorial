@@ -59,13 +59,26 @@ int main(int argc, char* argv[])
    for (int i = 0; i < 10; i++)
    {
       /** 
-      * The problem is that every time a rect is created it is
-      *  only temporarily allocated and once it gets out out of the scope
-      *  of this loop, it gets destroyed! So it's possible the rectangles are
-      *  being rendered but since the constructor is called and it destroys the
-      *  the texture, it becomes empty. (or completely destroy the object?).
+      * Now, everytime a rect is created, we have to manage its lifetime.
+      * Create the shared pointers and push them to the vector
       */
-      rects.push_back(TexturedRectangle{ renderer, "./images/digital-illustration-pascal-campion-7.bmp"});
+      std::shared_ptr<TexturedRectangle> rect = 
+         std::make_shared<TexturedRectangle>(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
+      rects.push_back(rect);
+   }
+
+   // Instantiate and initialize one time
+   int row = 0;
+   int col = 1;
+   for (int i = 0; i < 10; i++)
+   {
+      rects[i]->SetRectangleProperties(100 * col, 30 * row, 200, 200);
+      if (i % 3 == 0)
+      {
+         row++;
+         col = 0;
+      }
+      col++;
    }
 
    // Infinite loop for our application
@@ -95,18 +108,9 @@ int main(int argc, char* argv[])
       // Do our drawing
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
-      int row = 0;
-      int col = 0;
-      for (int i = 0; i < 10; i++)
+      for (auto& rect : rects)
       {
-         rects[i].SetRectangleProperties(20 * col, 30 * row, 200, 200);
-         if (i % 3 == 0)
-         {
-            row++;
-            col = 0;
-         }
-         col++;
-         rects[i].Render(renderer);
+         rect->Render(renderer);
       }
 
       // Finally show what we've drawn
