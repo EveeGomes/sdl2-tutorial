@@ -1,6 +1,7 @@
 // C++ Standard Libraries
 #include <iostream>
 #include <string>
+#include <vector>
 
 // Third-Party Library
 #include <SDL.h>
@@ -47,7 +48,11 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   TexturedRectangle rect(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
+   std::vector<TexturedRectangle> rects;
+   for (int i = 0; i < 10; i++)
+   {
+      rects.push_back(TexturedRectangle{ renderer, "./images/digital-illustration-pascal-campion-7.bmp"});
+   }
 
    // Infinite loop for our application
    bool gameIsRunning = true;
@@ -75,9 +80,20 @@ int main(int argc, char* argv[])
 
       // Do our drawing
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      
-      rect.SetRectangleProperties(20, 30, 200, 200);
-      rect.Render(renderer);
+
+      int row = 0;
+      int col = 0;
+      for (int i = 0; i < 10; i++)
+      {
+         rects[i].SetRectangleProperties(20 * col, 30 * row, 200, 200);
+         if (i % 3 == 0)
+         {
+            row++;
+            col = 0;
+         }
+         col++;
+         rects[i].Render(renderer);
+      }
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
