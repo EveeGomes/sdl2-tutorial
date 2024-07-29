@@ -1,3 +1,4 @@
+#include <iostream>
 #include "ResourceManager.h"
 
 ResourceManager::ResourceManager()
@@ -54,9 +55,12 @@ SDL_Surface* ResourceManager::GetSurface(std::string filepath)
    // else, we allocate that surface
    else
    {
+      std::cout << "Image allocated once\n";
       SDL_Surface* Surface = SDL_LoadBMP(filepath.c_str());
       // then we add it to our map
       m_Surfaces.insert(std::make_pair(filepath, Surface));
+      // return the newly created surface
+      return m_Surfaces[filepath];
    }
 
    // Since not all cases it returns a valid pointer.

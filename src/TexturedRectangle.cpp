@@ -2,18 +2,27 @@
 #include <iostream>
 
 #include "TexturedRectangle.h"
+#include "ResourceManager.h"
 
 TexturedRectangle::TexturedRectangle(SDL_Renderer*& renderer, std::string filePath)
 {
-   SDL_Surface* surface = SDL_LoadBMP(filePath.c_str());
+   /** 
+   * Look up our surface
+   * We can create this ResourceManager::GetInstance().GetSurface(filePath);
+   *  as a pointer if we want some temporary pointer:
+   */
+   SDL_Surface* retrieveSurface = ResourceManager::GetInstance().GetSurface("./images/digital-illustration-pascal-campion-7.bmp");
+
    /** 
    * The way our program is, we're getting to the disk 10 times in order to use the resource we have, the image
    *  and construct a TexturedRectangle. That's pretty expensive!
    * Adding a cout message we can see how many times this resource is used.
    */
-   std::cout << "Image loaded: " << filePath.c_str() << std::endl;
-   m_texture = SDL_CreateTextureFromSurface(renderer, surface);
-   SDL_FreeSurface(surface);
+   m_texture = SDL_CreateTextureFromSurface(renderer, retrieveSurface);
+
+   // 23:05 ep[26] We won't free it (we can add the functionality in our resource manager to free old surfaces or ones 
+   //  that have been used for a while). That is something to consider now that we're managing the resources when do we
+   //  give up ownership.
 }
 
 TexturedRectangle::~TexturedRectangle()
