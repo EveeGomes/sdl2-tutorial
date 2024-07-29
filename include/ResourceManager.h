@@ -30,7 +30,8 @@ public:
    * The actual task for this type is to retrieve some particular resource.
    */
    
-   // Method to get an instance of RM that we're going to allocate and control
+   // Method to get an instance of RM that we're going to allocate and control.
+   // It instantiate exactly 1 instance of our class
    static ResourceManager& GetInstance();
 
    /** 
