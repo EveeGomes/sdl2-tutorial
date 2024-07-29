@@ -12,7 +12,8 @@ ResourceManager::ResourceManager(ResourceManager const&)
 
 ResourceManager ResourceManager::operator=(ResourceManager const& rhs)
 {
-
+   // TODO: Although we do not need this for a singleton
+   return *this; // just so it compiles
 }
 
 ResourceManager& ResourceManager::GetInstance()
@@ -35,6 +36,30 @@ ResourceManager& ResourceManager::GetInstance()
 
 SDL_Surface* ResourceManager::GetSurface(std::string filepath)
 {
+   /** 
+   * The idea here is to look through our map (m_Surfaces) and see if any surface exists.
+   * ie, we'll see if a file exists, and if the file does exist, then return the associated surface.
+   * "That's because any time we load something, we're going to always, in this particular function GetSurface,
+   *  allocate an SDL_Surface."
+   * So, if the file exists, we'll grab the surface, if it doesn't we'll load the file.
+   */
+   // Create an iterator and assign it to the value returned in case we find the key in the map
+   auto Search = m_Surfaces.find(filepath);
+   // If we haven't reached the end, then we've found the surface
+   if (Search != m_Surfaces.end())
+   {
+      // Return the surface with that key
+      return m_Surfaces[filepath];
+   }
+   // else, we allocate that surface
+   else
+   {
+      SDL_Surface* Surface = SDL_LoadBMP(filepath.c_str());
+      // then we add it to our map
+      m_Surfaces.insert(std::make_pair(filepath, Surface));
+   }
+
+   // Since not all cases it returns a valid pointer.
    return nullptr;
 }
 
