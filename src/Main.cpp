@@ -81,6 +81,34 @@ int main(int argc, char* argv[])
       col++;
    }
 
+   /** 
+   *  x = 100, y = 0 i = 0
+      0 % 3 == 0
+      row = 1
+      col = 0
+      col++ = 1
+
+      x = 100, y = 30 i = 1
+      x = 200, y = 30 i = 2
+      x = 300, y = 30 i = 3
+      3 % 3 == 0
+      row = 2
+      col = 0
+      col++ = 1
+
+      x = 100, y = 60 i = 4
+      x = 200, y = 60 i = 5
+      x = 300, y = 60 i = 6 
+      3 % 3 == 0
+      row = 3
+      col = 0
+      col++ = 1
+
+      x = 100, y = 90 i = 7
+      x = 200, y = 90 i = 8
+      x = 300, y = 90 i = 9
+   */
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
