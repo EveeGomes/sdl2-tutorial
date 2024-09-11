@@ -35,7 +35,7 @@ public:
    static ResourceManager& GetInstance();
 
    /** 
-   * Task to retrieve : SDL surface that has loaded in some bitmap.
+   * Task: to retrieve an SDL surface that has loaded in some bitmap.
    * i.e. we need our RM needs some key to return some value (in this case key: the string, value: the actual surface).
    *  For that we'll need a data structure: a hash table which in C++ the unordered map will do the trick!
    *  We'll make it a private member of this class.
