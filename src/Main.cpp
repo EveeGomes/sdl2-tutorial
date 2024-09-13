@@ -77,7 +77,15 @@ int main(int argc, char* argv[])
          // Detect collision from our two shapes if mouse button is pressed
          if (event.button.button == SDL_BUTTON_LEFT)
          {
-            // TODO
+            // Since object2 is the one we're moving around, we'll work with it!
+            if (object2.IsColliding(object1))
+            {
+               std::cout << "Is colliding\n";
+            }
+            else
+            {
+               std::cout << "Not colliding\n";
+            }
          }
       }
 
