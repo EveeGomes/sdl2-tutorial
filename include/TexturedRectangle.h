@@ -41,7 +41,7 @@ public:
    /**
    * Have setters in order to set the values of the SDL_Rect, we now have as a member variable
    */
-   void SetRectangleProperties(int x, int y, int w, int h);
+   void Draw(int x, int y, int w, int h);
 
    // Update every frame
    void Update();

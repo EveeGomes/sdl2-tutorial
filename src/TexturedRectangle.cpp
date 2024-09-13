@@ -34,7 +34,7 @@ TexturedRectangle::~TexturedRectangle()
    SDL_DestroyTexture(m_texture);
 }
 
-void TexturedRectangle::SetRectangleProperties(int x, int y, int w, int h)
+void TexturedRectangle::Draw(int x, int y, int w, int h)
 {
    m_rectangle.x = x;
    m_rectangle.y = y;

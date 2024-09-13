@@ -50,76 +50,20 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   ///** 
-   //* So, in order to fix that, we have to manage the lifetime of those objects.
-   //* One way is to have a vector of TexturedRectangle pointers: vector<TexturedRectangle*>
-   //* However, as an API user perspective, it's better for memory management, to use
-   //*  shared pointers!
-   //*/
-   //std::vector<std::shared_ptr<TexturedRectangle>> rects;
-   //for (int i = 0; i < 10; i++)
-   //{
-   //   /** 
-   //   * Now, everytime a rect is created, we have to manage its lifetime.
-   //   * Create the shared pointers and push them to the vector
-   //   */
-   //   std::shared_ptr<TexturedRectangle> rect = 
-   //      std::make_shared<TexturedRectangle>(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
-   //   rects.push_back(rect);
-   //}
-
-   //// Instantiate and initialize one time
-   //int row = 0;
-   //int col = 1;
-   //for (int i = 0; i < 10; i++)
-   //{
-   //   rects[i]->SetRectangleProperties(100 * col, 30 * row, 200, 200);
-   //   if (i % 3 == 0)
-   //   {
-   //      row++;
-   //      col = 0;
-   //   }
-   //   col++;
-   //}
-
-   /** 
-   *  x = 100, y = 0 i = 0
-      0 % 3 == 0
-      row = 1
-      col = 0
-      col++ = 1
-
-      x = 100, y = 30 i = 1
-      x = 200, y = 30 i = 2
-      x = 300, y = 30 i = 3
-      3 % 3 == 0
-      row = 2
-      col = 0
-      col++ = 1
-
-      x = 100, y = 60 i = 4
-      x = 200, y = 60 i = 5
-      x = 300, y = 60 i = 6 
-      3 % 3 == 0
-      row = 3
-      col = 0
-      col++ = 1
-
-      x = 100, y = 90 i = 7
-      x = 200, y = 90 i = 8
-      x = 300, y = 90 i = 9
-   */
-
-   /** 
-   * Using AnimatedSprite type
-   */
-   AnimatedSprite animatedSprite(renderer, "./images/Character_Down_grid_no_grid.bmp");
-   animatedSprite.Draw(200, 200, 150, 150);
+   // Create two objects to render
+   TexturedRectangle object1(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
+   TexturedRectangle object2(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
 
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
    {
+      // Capture mouse positions
+      int mouseX;
+      int mouseY;
+      Uint32 buttons;
+      buttons = SDL_GetMouseState(&mouseX, &mouseY);
+
       //(1) Handle Input
       SDL_Event event;
       // Start our event loop
@@ -129,6 +73,11 @@ int main(int argc, char* argv[])
          if (event.type == SDL_QUIT)
          {
             gameIsRunning = false;
+         }
+         // Detect collision from our two shapes if mouse button is pressed
+         if (event.button.button == SDL_BUTTON_LEFT)
+         {
+            // TODO
          }
       }
 
@@ -143,21 +92,13 @@ int main(int argc, char* argv[])
       // Do our drawing
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
-      //for (auto& rect : rects)
-      //{
-      //   rect->Render(renderer);
-      //}
+      // Set draw positions and sizes
+      object1.Draw(50, 50, 100, 100);
+      object2.Draw(mouseX, mouseY, 100, 100);
 
-      // Have a counter to choose which frame to work
-      static int frameNumber = 0;
-
-      animatedSprite.PlayFrame(0, 0, 32, 32, frameNumber);
-      animatedSprite.Render(renderer);
-      frameNumber++;
-      if (frameNumber > 4)
-      {
-         frameNumber = 0;
-      }
+      // Render our objects
+      object1.Render(renderer);
+      object2.Render(renderer);
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
