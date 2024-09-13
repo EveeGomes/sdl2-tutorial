@@ -113,7 +113,7 @@ int main(int argc, char* argv[])
    /** 
    * Using AnimatedSprite type
    */
-   AnimatedSprite animatedSprite(renderer, "./images/Character_Down_grid2.bmp");
+   AnimatedSprite animatedSprite(renderer, "./images/Character_Down_grid_no_grid.bmp");
    animatedSprite.Draw(200, 200, 150, 150);
 
    // Infinite loop for our application
@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
       /** 
       * This is how many milliseconds we want to slowdown the program
       */
-      SDL_Delay(60);
+      SDL_Delay(100);
    }
 
    /** 
