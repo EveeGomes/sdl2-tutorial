@@ -24,8 +24,10 @@ public:
    *  and then immediately create a texture surface from that.
    * We'll get the renderer as a reference and have the texture as a member variable.
    *  This is a decision that might change later as to make the user of our API more
-   *  comfortable instead of keeping passing the renderer over the methods. In other hands
+   *  comfortable instead of keeping passing the renderer over the methods. In other words
    *  it's a good thing to keep everything in the same renderer.
+   * 
+   * SDL_Renderer*& renderer -> passing a pointer by reference!
    */
    TexturedRectangle(SDL_Renderer*& renderer, std::string filePath);
 

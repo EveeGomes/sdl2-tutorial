@@ -136,11 +136,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad\src\glad.c" />
+    <ClCompile Include="src\AnimatedSprite.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\TexturedRectangle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AnimatedSprite.h" />
     <ClInclude Include="include\TexturedRectangle.h" />
     <ClInclude Include="include\ResourceManager.h" />
   </ItemGroup>
