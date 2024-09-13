@@ -9,6 +9,7 @@
 
 // My classes
 #include "TexturedRectangle.h" // API
+#include "AnimatedSprite.h"
 
 int main(int argc, char* argv[])
 {
@@ -49,37 +50,37 @@ int main(int argc, char* argv[])
    SDL_Renderer* renderer = nullptr;
    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-   /** 
-   * So, in order to fix that, we have to manage the lifetime of those objects.
-   * One way is to have a vector of TexturedRectangle pointers: vector<TexturedRectangle*>
-   * However, as an API user perspective, it's better for memory management, to use
-   *  shared pointers!
-   */
-   std::vector<std::shared_ptr<TexturedRectangle>> rects;
-   for (int i = 0; i < 10; i++)
-   {
-      /** 
-      * Now, everytime a rect is created, we have to manage its lifetime.
-      * Create the shared pointers and push them to the vector
-      */
-      std::shared_ptr<TexturedRectangle> rect = 
-         std::make_shared<TexturedRectangle>(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
-      rects.push_back(rect);
-   }
+   ///** 
+   //* So, in order to fix that, we have to manage the lifetime of those objects.
+   //* One way is to have a vector of TexturedRectangle pointers: vector<TexturedRectangle*>
+   //* However, as an API user perspective, it's better for memory management, to use
+   //*  shared pointers!
+   //*/
+   //std::vector<std::shared_ptr<TexturedRectangle>> rects;
+   //for (int i = 0; i < 10; i++)
+   //{
+   //   /** 
+   //   * Now, everytime a rect is created, we have to manage its lifetime.
+   //   * Create the shared pointers and push them to the vector
+   //   */
+   //   std::shared_ptr<TexturedRectangle> rect = 
+   //      std::make_shared<TexturedRectangle>(renderer, "./images/digital-illustration-pascal-campion-7.bmp");
+   //   rects.push_back(rect);
+   //}
 
-   // Instantiate and initialize one time
-   int row = 0;
-   int col = 1;
-   for (int i = 0; i < 10; i++)
-   {
-      rects[i]->SetRectangleProperties(100 * col, 30 * row, 200, 200);
-      if (i % 3 == 0)
-      {
-         row++;
-         col = 0;
-      }
-      col++;
-   }
+   //// Instantiate and initialize one time
+   //int row = 0;
+   //int col = 1;
+   //for (int i = 0; i < 10; i++)
+   //{
+   //   rects[i]->SetRectangleProperties(100 * col, 30 * row, 200, 200);
+   //   if (i % 3 == 0)
+   //   {
+   //      row++;
+   //      col = 0;
+   //   }
+   //   col++;
+   //}
 
    /** 
    *  x = 100, y = 0 i = 0
@@ -109,6 +110,12 @@ int main(int argc, char* argv[])
       x = 300, y = 90 i = 9
    */
 
+   /** 
+   * Using AnimatedSprite type
+   */
+   AnimatedSprite animatedSprite(renderer, "./images/Character_Down_grid2.bmp");
+   animatedSprite.Draw(200, 200, 150, 150);
+
    // Infinite loop for our application
    bool gameIsRunning = true;
    while (gameIsRunning)
@@ -136,13 +143,29 @@ int main(int argc, char* argv[])
       // Do our drawing
       SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
-      for (auto& rect : rects)
+      //for (auto& rect : rects)
+      //{
+      //   rect->Render(renderer);
+      //}
+
+      // Have a counter to choose which frame to work
+      static int frameNumber = 0;
+
+      animatedSprite.PlayFrame(0, 0, 32, 32, frameNumber);
+      animatedSprite.Render(renderer);
+      frameNumber++;
+      if (frameNumber > 4)
       {
-         rect->Render(renderer);
+         frameNumber = 0;
       }
 
       // Finally show what we've drawn
       SDL_RenderPresent(renderer);
+
+      /** 
+      * This is how many milliseconds we want to slowdown the program
+      */
+      SDL_Delay(60);
    }
 
    /** 
