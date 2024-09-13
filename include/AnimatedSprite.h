@@ -9,19 +9,17 @@
 
 /** 
 * Usually when implementing something, it's nice to think about what the interface is itself. 
-*  Then, we can think about some of the implementation details! - Mike Shah.
-* 
-* 
+*  Then, we can think about some of the implementation details! -Mike Shah.
 */
 
 class AnimatedSprite
 {
 private:
    // Where we're selecting from
-   SDL_Rect m_src;
+   SDL_Rect m_src{};
    // Where we're rendering
-   SDL_Rect m_dst;
-   SDL_Texture* m_texture;
+   SDL_Rect m_dst{};
+   SDL_Texture* m_texture = nullptr;
 
 public:
    // Constructor
@@ -33,8 +31,8 @@ public:
    // Tell the x,y position and size of the rectangle we're drawing
    void Draw(int posX, int posY, int w, int h);
 
-   // Select and play a specific frame
-   void PlayFrame(int srcX, int srcY, int srcW, int srcH, int frame);
+   // Select from the spritesheet and play a specific frame
+   void PlayFrame(int x, int y, int w, int h, int frame);
 
    // Update every frame
    void Update();
