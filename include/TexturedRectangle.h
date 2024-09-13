@@ -17,6 +17,11 @@ private:
    */
    SDL_Texture* m_texture;
 
+   /** 
+   * Since there's no need (for now) to retrieve the m_rectangle outside this class, we'll make the
+   *  helper function private as well.
+   */
+   inline const SDL_Rect* GetRectangle() const { return &m_rectangle; }
 public:
    /**
    * Responsible for setting up our rectangle and its properties!
@@ -42,6 +47,11 @@ public:
    * Have setters in order to set the values of the SDL_Rect, we now have as a member variable
    */
    void Draw(int x, int y, int w, int h);
+
+   /** 
+   * Detect collision
+   */
+   SDL_bool IsColliding(const TexturedRectangle& obj);
 
    // Update every frame
    void Update();

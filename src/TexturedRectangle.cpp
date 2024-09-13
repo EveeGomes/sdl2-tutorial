@@ -42,6 +42,16 @@ void TexturedRectangle::Draw(int x, int y, int w, int h)
    m_rectangle.h = h;
 }
 
+SDL_bool TexturedRectangle::IsColliding(const TexturedRectangle& obj)
+{
+   /** 
+   * Use an SDL function that checks if two SDL_Rect has intersections.
+   * We need to extract an SDL_Rect from a TexturedRectangle. This type already has an
+   *  SDL_Rect as a member: m_rectangle, so we'll write a getter to use it here!
+   */
+   return SDL_HasIntersection(&m_rectangle, obj.GetRectangle());
+}
+
 void TexturedRectangle::Update()
 {
 }
