@@ -109,14 +109,19 @@ int main(int argc, char* argv[])
       // Draw rectangle
       SDL_RenderDrawRect(renderer, &rectangle);
 
-      //// Draw our rotated texture
-      //SDL_Point center;
+      // Draw our rotated texture
+      SDL_Point center;
+      // This is the local rotation within the 'rectangle'
+      center.x = 0;
+      center.y = 0;
+
       //center.x = rectangle.w / 2;
       //center.y = rectangle.h / 2;
-      //static int angle = 0;
-      //angle++;
-      //
-      //SDL_RenderCopyEx(renderer, texture, nullptr, &rectangle, angle, &center, SDL_FLIP_NONE);
+      static int angle = 0;
+      angle++;
+      
+      SDL_RenderCopyEx(renderer, texture, nullptr, &rectangle, angle, &center, SDL_FLIP_NONE); // SDL2
+      // in SDL3 use SDL_RenderTextureRotated() passing the same parameters! @https://wiki.libsdl.org/SDL3/SDL_RenderTextureRotated
 
       // Draw our rectangle at our mouse
       // (color it differently if we collide)
