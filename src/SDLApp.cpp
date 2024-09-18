@@ -52,6 +52,10 @@ void SDLApp::RunLoop()
 {
    while (m_gameIsRunning)
    {
+      // Instead of having the user worry about getting the mouse state, update them here in the API
+      Uint32 buttons;
+      buttons = SDL_GetMouseState(&m_mouseX, &m_mouseY);
+
       // Handle events first
       m_EventCallback();
       // Then handle our rendering

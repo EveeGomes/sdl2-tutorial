@@ -17,6 +17,10 @@ private:
    // Infinite loop for our application
    bool m_gameIsRunning = true;
 
+   // Store mouse coordinates by default
+   int m_mouseX;
+   int m_mouseY;
+
    // Store our callback functions (std::function let us work with function pointers)
    std::function<void(void)> m_RenderCallback;
    std::function<void(void)> m_EventCallback;
@@ -37,8 +41,10 @@ public:
    // Loop our application
    void RunLoop();
 
-   /** Getter */
+   /** Getters */
    SDL_Renderer* GetRenderer() const { return m_renderer; }
+   int GetMouseX() { return m_mouseX; }
+   int GetMouseY() { return m_mouseY; }
 };
 
 #endif // !SDL_APP_H

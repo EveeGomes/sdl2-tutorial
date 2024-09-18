@@ -16,18 +16,10 @@
 // One possibility of creating as a global (that should be avoided, but for learning/teaching purpose we'll use for now)
 SDLApp* app = nullptr;
 
-// Also as globals...
-// Capture mouse positions
-int mouseX;
-int mouseY;
-
 void HandleEvents()
 {
    //(1) Handle Input
    SDL_Event event;
-
-   Uint32 buttons;
-   buttons = SDL_GetMouseState(&mouseX, &mouseY);
 
    // Start our event loop
    while (SDL_PollEvent(&event))
@@ -70,7 +62,7 @@ void HandleRendering()
 
    // Set draw positions and sizes
    object1.Draw(50, 50, 100, 100);
-   object2.Draw(mouseX, mouseY, 100, 100);
+   object2.Draw(app->GetMouseX(), app->GetMouseY(), 100, 100);
 
    // Render our objects
    object1.Render(app->GetRenderer());
