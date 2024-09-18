@@ -27,7 +27,7 @@ void HandleEvents()
       // Handle each specific event
       if (event.type == SDL_QUIT)
       {
-         //m_gameIsRunning = false;
+         app->StopAppLoop();
       }
       //// Detect collision from our two shapes if mouse button is pressed
       //if (event.button.button == SDL_BUTTON_LEFT)
@@ -51,15 +51,6 @@ void HandleRendering()
    TexturedRectangle object1(app->GetRenderer(), "./images/digital-illustration-pascal-campion-7.bmp");
    TexturedRectangle object2(app->GetRenderer(), "./images/digital-illustration-pascal-campion-7.bmp");
 
-   // (3) Clear and Draw the Screen
-   // Set a color before clearing: set the background color
-   SDL_SetRenderDrawColor(app->GetRenderer(), 0, 0, 0, SDL_ALPHA_OPAQUE);
-   // Gives us a clear "canvas"
-   SDL_RenderClear(app->GetRenderer());
-
-   // Do our drawing
-   SDL_SetRenderDrawColor(app->GetRenderer(), 255, 255, 255, SDL_ALPHA_OPAQUE);
-
    // Set draw positions and sizes
    object1.Draw(50, 50, 100, 100);
    object2.Draw(app->GetMouseX(), app->GetMouseY(), 100, 100);
@@ -67,14 +58,6 @@ void HandleRendering()
    // Render our objects
    object1.Render(app->GetRenderer());
    object2.Render(app->GetRenderer());
-
-   // Finally show what we've drawn
-   SDL_RenderPresent(app->GetRenderer());
-
-   /**
-   * This is how many milliseconds we want to slowdown the program
-   */
-   SDL_Delay(100);
 }
 
 int main(int argc, char* argv[])

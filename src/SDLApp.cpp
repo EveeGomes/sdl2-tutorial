@@ -56,10 +56,33 @@ void SDLApp::RunLoop()
       Uint32 buttons;
       buttons = SDL_GetMouseState(&m_mouseX, &m_mouseY);
 
-      // Handle events first
+      // (1) Handle events first
+      // User specifies what to do in the events callback
       m_EventCallback();
-      // Then handle our rendering
+
+      // (2) Clear and Draw the Screen
+      // Set a color before clearing: set the background color
+      SDL_SetRenderDrawColor(m_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      // Gives us a clear "canvas"
+      SDL_RenderClear(m_renderer);
+
+      // Do our drawing
+      SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+
+      // (3) Then, handle our rendering
+      // What the user specifies to happen during the rendering stage in this callback function
       m_RenderCallback();
+
+      // Finally show what we've drawn
+      SDL_RenderPresent(m_renderer);
+
+      // TODO: eventually set a frame cap
+      SDL_Delay(100);
    }
    
+}
+
+void SDLApp::StopAppLoop()
+{
+   m_gameIsRunning = false;
 }

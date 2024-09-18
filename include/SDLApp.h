@@ -41,6 +41,9 @@ public:
    // Loop our application
    void RunLoop();
 
+   // Stop our application
+   void StopAppLoop();
+
    /** Getters */
    SDL_Renderer* GetRenderer() const { return m_renderer; }
    int GetMouseX() { return m_mouseX; }
