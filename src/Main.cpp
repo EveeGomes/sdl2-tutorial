@@ -122,6 +122,9 @@ int main(int argc, char* argv[])
       // (color it differently if we collide)
       if (SDL_IntersectRect(&rectangle, &rectMouse, &rectIntersect))
       {
+         SDL_SetRenderDrawColor(renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
+         // Change rectangle color when intersect by the rectMouse
+         SDL_RenderDrawRect(renderer, &rectIntersect);
          SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
       }
       else
