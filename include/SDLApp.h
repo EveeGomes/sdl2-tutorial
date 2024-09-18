@@ -1,6 +1,9 @@
 #ifndef SDL_APP_H
 #define SDL_APP_H
 
+// C++ Standard Libraries
+#include <functional>
+
 // Third-Party Library
 #include <SDL.h>
 
@@ -25,11 +28,11 @@ public:
    // Destructor
    ~SDLApp();
 
-   // Handle events
-   void EventCallback();
+   // Set the event callback
+   void SetEventCallback(std::function<void(void)> func);
 
-   // Handle render
-   void RenderCallback();
+   // Set the render callback
+   void SetRenderCallback(std::function<void(void)> func);
 
    // Loop our application
    void RunLoop();
