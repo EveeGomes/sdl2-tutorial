@@ -111,12 +111,13 @@ int main(int argc, char* argv[])
 
       // Draw our rotated texture
       SDL_Point center;
-      // This is the local rotation within the 'rectangle'
-      center.x = 0;
-      center.y = 0;
-
-      //center.x = rectangle.w / 2;
-      //center.y = rectangle.h / 2;
+      // This is the local rotation within the 'rectangle'. Rotation from the top-left corner
+      //center.x = 0;
+      //center.y = 0;
+      
+      // Rotation from the center of the rectangle
+      center.x = rectangle.w / 2;
+      center.y = rectangle.h / 2;
       static int angle = 0;
       angle++;
       
