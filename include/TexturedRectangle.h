@@ -34,7 +34,7 @@ public:
    * 
    * SDL_Renderer*& renderer -> passing a pointer by reference!
    */
-   TexturedRectangle(SDL_Renderer*& renderer, std::string filePath);
+   TexturedRectangle(SDL_Renderer* renderer, std::string filePath);
 
    ~TexturedRectangle();
 
@@ -56,7 +56,7 @@ public:
    // Update every frame
    void Update();
 
-   void Render(SDL_Renderer*& renderer);
+   void Render(SDL_Renderer* renderer);
 };
 
 #endif // !TEXTUREDRECTANGLE_H

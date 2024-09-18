@@ -4,7 +4,7 @@
 #include "TexturedRectangle.h"
 #include "ResourceManager.h"
 
-TexturedRectangle::TexturedRectangle(SDL_Renderer*& renderer, std::string filePath)
+TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, std::string filePath)
 {
    /** 
    * Look up our surface
@@ -56,7 +56,7 @@ void TexturedRectangle::Update()
 {
 }
 
-void TexturedRectangle::Render(SDL_Renderer*& renderer)
+void TexturedRectangle::Render(SDL_Renderer* renderer)
 {
    // Drawing
    SDL_RenderCopy(renderer, m_texture, NULL, &m_rectangle);

@@ -36,6 +36,9 @@ public:
 
    // Loop our application
    void RunLoop();
+
+   /** Getter */
+   SDL_Renderer* GetRenderer() const { return m_renderer; }
 };
 
 #endif // !SDL_APP_H

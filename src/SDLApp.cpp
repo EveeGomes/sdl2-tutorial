@@ -34,6 +34,8 @@ SDLApp::~SDLApp()
 {
    // Destroy our m_window
    SDL_DestroyWindow(m_window);
+   // Quit our SDL application
+   SDL_Quit();
 }
 
 void SDLApp::SetEventCallback(std::function<void(void)> func)
