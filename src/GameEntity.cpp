@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "GameEntity.h"
 
 GameEntity::GameEntity()
 {
@@ -22,7 +22,7 @@ void GameEntity::Update()
 void GameEntity::Render()
 {
    // Checking if our sprite isn't null in a reverse order which is a bit safer
-   if (nullptr == m_sprite)
+   if (nullptr != m_sprite)
    {
       m_sprite->Render(m_renderer);
    }

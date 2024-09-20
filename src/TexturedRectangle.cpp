@@ -11,7 +11,7 @@ TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, std::string filePat
    * We can create this ResourceManager::GetInstance().GetSurface(filePath);
    *  as a pointer if we want some temporary pointer:
    */
-   SDL_Surface* retrieveSurface = ResourceManager::GetInstance().GetSurface("./images/digital-illustration-pascal-campion-7.bmp");
+   SDL_Surface* retrieveSurface = ResourceManager::GetInstance().GetSurface(filePath);
 
    /** 
    * The way our program is, we're getting to the disk 10 times in order to use the resource we have, the image
@@ -23,6 +23,13 @@ TexturedRectangle::TexturedRectangle(SDL_Renderer* renderer, std::string filePat
    // 23:05 ep[26] We won't free it (we can add the functionality in our resource manager to free old surfaces or ones 
    //  that have been used for a while). That is something to consider now that we're managing the resources when do we
    //  give up ownership.
+
+   // Set default positions
+   m_rectangle.x = 0;
+   m_rectangle.y = 0;
+   m_rectangle.w = 32;
+   m_rectangle.h = 32;
+
 }
 
 TexturedRectangle::~TexturedRectangle()

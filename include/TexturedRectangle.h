@@ -1,5 +1,5 @@
-#ifndef TEXTUREDRECTANGLE_H
-#define TEXTUREDRECTANGLE_H
+#ifndef TEXTURED_RECTANGLE_H
+#define TEXTURED_RECTANGLE_H
 
 // C++ Standard Libraries
 #include <string>

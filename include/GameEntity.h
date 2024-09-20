@@ -1,5 +1,5 @@
-#ifndef GAME_OBJECT_H
-#define GAME_OBJECT_H
+#ifndef GAME_ENTITY_H
+#define GAME_ENTITY_H
 
 #include "TexturedRectangle.h"
 
