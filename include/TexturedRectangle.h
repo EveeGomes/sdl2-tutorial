@@ -7,6 +7,14 @@
 // Third-Party Library
 #include <SDL.h>
 
+/** 
+* Refactor this class so it can be a rectangle that holds an image. 
+*  This way we can think of this as a sprite (instead of a textured rectangle).
+* 
+* We should also think of handleling collision differently.
+*  We can have the collision detection into its own component for our game entity.
+*/
+
 class TexturedRectangle
 {
 private:
