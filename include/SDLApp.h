@@ -45,7 +45,9 @@ public:
    void StopAppLoop();
 
    /** Getters */
+   // Retrieve the renderer
    SDL_Renderer* GetRenderer() const { return m_renderer; }
+   // Return mouse positions
    int GetMouseX() { return m_mouseX; }
    int GetMouseY() { return m_mouseY; }
 };
